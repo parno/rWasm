@@ -1881,7 +1881,9 @@ fn print_cargo_toml(opts: &CmdLineOpts) -> Maybe<()> {
         wiggle = \"0.20.0\"\n\
         "
     } else {
-        ""
+        "\
+        num-traits = \"0.2.18\"\n\
+        "
     };
     Ok(std::fs::write(
         cargo_toml_path,
