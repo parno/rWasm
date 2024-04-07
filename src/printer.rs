@@ -1870,7 +1870,7 @@ fn print_export(
 
 fn print_cargo_toml(opts: &CmdLineOpts) -> Maybe<()> {
     let cargo_toml_path = opts.output_directory.join("Cargo.toml");
-    let package_name = opts
+    let _package_name = opts
         .input_path
         .file_stem()
         .and_then(|n| n.to_str())
@@ -1891,7 +1891,7 @@ fn print_cargo_toml(opts: &CmdLineOpts) -> Maybe<()> {
         format!(
             r#"
 [package]
-name = "sandboxed-{name}"
+name = "sandboxed"
 version = "{version}"
 authors = ["generated-by-{generator}-{version}"]
 edition = "2018"
@@ -1902,7 +1902,6 @@ edition = "2018"
 [profile.release]
 debug = true
             "#,
-            name = package_name,
             version = crate::PROGRAM_VERSION,
             generator = crate::PROGRAM_NAME,
             dependencies = dependencies,
@@ -2226,10 +2225,10 @@ pub fn print_module(m: &wasm::syntax::Module, opts: &CmdLineOpts) -> Maybe<()> {
         )?;
     } else {
         // Generate a main file too, for testing purposes
-        let main_content: String = "use sandboxed_basic;
+        let main_content: String = "use sandboxed;
 
 fn main() {
-    sandboxed_basic::WasmModule::new().test();
+    sandboxed::WasmModule::new().test();
 }".to_string();
         let generated_main_path = src_dir.join("main.rs");
         std::fs::write(&generated_main_path, main_content)?;
