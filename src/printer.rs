@@ -2224,6 +2224,15 @@ pub fn print_module(m: &wasm::syntax::Module, opts: &CmdLineOpts) -> Maybe<()> {
             src_dir.join("guest_mem_wrapper.rs"),
             include_str!("../templates-for-generation/guest_mem_wrapper.rs"),
         )?;
+    } else {
+        // Generate a main file too, for testing purposes
+        let main_content: String = "use sandboxed_basic;
+
+fn main() {
+    sandboxed_basic::WasmModule::new().test();
+}".to_string();
+        let generated_main_path = src_dir.join("main.rs");
+        std::fs::write(&generated_main_path, main_content)?;
     }
     println!("Finished generating");
 
