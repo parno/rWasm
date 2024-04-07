@@ -1877,6 +1877,7 @@ fn print_cargo_toml(opts: &CmdLineOpts) -> Maybe<()> {
         .unwrap_or("wasmmodule".into());
     let dependencies = if opts.generate_wasi_executable {
         "\
+        num-traits = \"0.2.18\"\n\
         wasi-common = \"0.20.0\"\n\
         wiggle = \"0.20.0\"\n\
         "
